@@ -58,7 +58,26 @@ router.delete('/:id', (req, res) => {
 });
 
 router.put('/:id', (req, res) => {
-  // do your magic!
+  if(!req.body.text){
+    res.status(400).json({
+      message: 'Please provide text.'
+    })
+  } else {
+    Posts.update(req.params.id, req.body)
+    .then(count => {
+      if(count > 0){
+        res.status(201).json({
+          message: 'Post successfully updated.'
+        })
+      }
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({
+        message: 'Error updating the post.'
+      });
+    });
+  };
 });
 
 // custom middleware
