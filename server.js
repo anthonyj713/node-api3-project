@@ -1,7 +1,7 @@
 const express = require('express');
 
-const postsRouter = require('./posts/postRouter.js');
 const usersRouter = require('./users/userRouter.js');
+const postsRouter = require('./posts/postRouter.js');
 
 const server = express();
 
@@ -9,8 +9,10 @@ server.get('/', (req, res) => {
   res.json({ query: req.query, params: req.params, headers: req.headers});;
 });
 
-server.use('/api/posts', postsRouter);
+server.use(logger);
 server.use('/api/users', usersRouter)
+server.use('/api/posts', postsRouter);
+
 
 //custom middleware
 
@@ -22,6 +24,6 @@ function logger(req, res, next) {
   next();
 };
 
-server.use(logger);
+
 
 module.exports = server;
